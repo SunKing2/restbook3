@@ -9,11 +9,9 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.oreilly.rest.workbook</groupId>
-    <artifactId>workbook-ex03_1</artifactId>
-    <version>1.0</version>
+    <artifactId>restbook3</artifactId>
     <packaging>war</packaging>
-    <name>ex03_1</name>
+    <name>restbook3</name>
     <description/>
 
     <dependencies>
