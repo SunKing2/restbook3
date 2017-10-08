@@ -33,6 +33,11 @@ public class CustomerResource {
 
    public CustomerResource() {
    }
+   
+   @GET
+   public String hello() {
+	   return ("yay! you found me! I should code showing customers here.");
+   }
 
    @POST
    @Consumes("application/xml")

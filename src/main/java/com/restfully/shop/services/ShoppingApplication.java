@@ -10,6 +10,7 @@ public class ShoppingApplication extends Application {
 
    public ShoppingApplication() {
       singletons.add(new CustomerResource());
+      singletons.add(new Welcome());
    }
 
    @Override
