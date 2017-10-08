@@ -27,9 +27,9 @@ public class CustomerResource {
 
    @POST
    @Consumes("application/xml")
-   public Response createCustomer(InputStream is) {
-	  System.out.println("POST /customers");
-      Customer customer = readCustomer(is);
+   public Response createCustomer(String inputString) {
+	  System.out.println("POST /customers:" + inputString);
+      Customer customer = readCustomerUsingString(inputString);
       customer.id = idCounter.incrementAndGet();
       customerDB.put(customer.id, customer);
       System.out.println("Created customer " + customer.id);
@@ -56,9 +56,9 @@ public class CustomerResource {
    @PUT
    @Path("{id}")
    @Consumes("application/xml")
-   public void updateCustomer(@PathParam("id") int id, InputStream is) {
-	  System.out.println("PUT /customers/" + id);
-      Customer update = readCustomer(is);
+   public void updateCustomer(@PathParam("id") int id, String inputString) {
+	  System.out.println("PUT /customers/" + id + ":" + inputString);
+      Customer update = readCustomerUsingString(inputString);
       System.out.println("   customer read:" + update);
       Customer current = customerDB.get(id);
       if (current == null) throw new WebApplicationException(Response.Status.NOT_FOUND);
@@ -80,29 +80,29 @@ public class CustomerResource {
       writer.println("</customer>");
    }
 
-   protected Customer readCustomer(InputStream is) {
-      try {
-         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-         Document doc = builder.parse(is);
-         System.out.println("doc:" + doc);
-         Element root = doc.getDocumentElement();
-         System.out.println("root=" + root);
-         Customer cust = new Customer();
-         if (root.getAttribute("id") != null && !root.getAttribute("id").trim().equals(""))
-            cust.id = Integer.valueOf(root.getAttribute("id"));
-         NodeList nodes = root.getChildNodes();
-         for (int i = 0; i < nodes.getLength(); i++) {
-            Element element = (Element) nodes.item(i);
-            if (element.getTagName().equals("last-name")) {
-               cust.lastName = element.getTextContent();
-            }
-         }
-         return cust;
-      }
-      catch (Exception e) {
-    	  System.out.println("cot:" + e);
-         throw new WebApplicationException(e, Response.Status.BAD_REQUEST);
-      }
-   }
-
+   protected Customer readCustomerUsingString(String inputString) {
+	      try {
+	         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+	         InputStream is = new ByteArrayInputStream(inputString.getBytes("UTF-8"));
+	         Document doc = builder.parse(is);
+	         System.out.println("doc:" + doc);
+	         Element root = doc.getDocumentElement();
+	         System.out.println("root=" + root);
+	         Customer cust = new Customer();
+	         if (root.getAttribute("id") != null && !root.getAttribute("id").trim().equals(""))
+	            cust.id = Integer.valueOf(root.getAttribute("id"));
+	         NodeList nodes = root.getChildNodes();
+	         for (int i = 0; i < nodes.getLength(); i++) {
+	            Element element = (Element) nodes.item(i);
+	            if (element.getTagName().equals("last-name")) {
+	               cust.lastName = element.getTextContent();
+	            }
+	         }
+	         return cust;
+	      }
+	      catch (Exception e) {
+	    	  System.out.println("cot:" + e);
+	         throw new WebApplicationException(e, Response.Status.BAD_REQUEST);
+	      }
+	   }
 }
