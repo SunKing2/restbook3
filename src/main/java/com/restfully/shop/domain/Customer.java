@@ -9,6 +9,10 @@ public class Customer {
    private String state;
    private String zip;
    private String country;
+   
+   public String toString() {
+	   return "" + id + "    " + lastName;
+   }
 
    public int getId() {
       return id;

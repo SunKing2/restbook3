@@ -6,6 +6,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -36,12 +37,14 @@ public class CustomerResource {
    
    @GET
    public String hello() {
+	   System.out.println("GET /customers");
 	   return ("yay! you found me! I should code showing customers here.");
    }
 
    @POST
    @Consumes("application/xml")
    public Response createCustomer(InputStream is) {
+	  System.out.println("POST /customers");
       Customer customer = readCustomer(is);
       customer.setId(idCounter.incrementAndGet());
       customerDB.put(customer.getId(), customer);
@@ -54,6 +57,7 @@ public class CustomerResource {
    @Path("{id}")
    @Produces("application/xml")
    public StreamingOutput getCustomer(@PathParam("id") int id) {
+	  System.out.println("GET /customers/" + id);
       final Customer customer = customerDB.get(id);
       if (customer == null) {
          throw new WebApplicationException(Response.Status.NOT_FOUND);
@@ -69,7 +73,9 @@ public class CustomerResource {
    @Path("{id}")
    @Consumes("application/xml")
    public void updateCustomer(@PathParam("id") int id, InputStream is) {
+	  System.out.println("PUT /customers/" + id);
       Customer update = readCustomer(is);
+      System.out.println("   customer read:" + update);
       Customer current = customerDB.get(id);
       if (current == null) throw new WebApplicationException(Response.Status.NOT_FOUND);
 
@@ -79,6 +85,12 @@ public class CustomerResource {
       current.setState(update.getState());
       current.setZip(update.getZip());
       current.setCountry(update.getCountry());
+   }
+   
+   @DELETE
+   public String deleteAllCustomers() {
+	   customerDB.clear();
+	   return "all customers deleted";
    }
 
 
@@ -99,7 +111,9 @@ public class CustomerResource {
       try {
          DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
          Document doc = builder.parse(is);
+         System.out.println("doc:" + doc);
          Element root = doc.getDocumentElement();
+         System.out.println("root=" + root);
          Customer cust = new Customer();
          if (root.getAttribute("id") != null && !root.getAttribute("id").trim().equals(""))
             cust.setId(Integer.valueOf(root.getAttribute("id")));
@@ -131,6 +145,7 @@ public class CustomerResource {
          return cust;
       }
       catch (Exception e) {
+    	  System.out.println("cot:" + e);
          throw new WebApplicationException(e, Response.Status.BAD_REQUEST);
       }
    }
