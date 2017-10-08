@@ -22,7 +22,7 @@ public class CustomerResource {
    @GET
    public String hello() {
 	   System.out.println("GET /customers");
-	   return ("yay! you found me! I should code showing customers here.");
+	   return ("yay! you found me! I should code showing customers here." + customerDB);
    }
 
    @POST
