@@ -91,7 +91,7 @@
                     <connectors>
                         <connector
                                 implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-                            <port>9095</port>
+                            <port>8080</port>
                             <maxIdleTime>60000</maxIdleTime>
                         </connector>
                     </connectors>

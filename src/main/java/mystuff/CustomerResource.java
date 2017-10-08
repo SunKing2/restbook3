@@ -1,6 +1,5 @@
-package com.restfully.shop.services;
+package mystuff;
 
-import com.restfully.shop.domain.Customer;
 import org.w3c.dom.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;

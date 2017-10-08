@@ -1,4 +1,4 @@
-package com.restfully.shop.domain;
+package mystuff;
 
 public class Customer {
    public int id;

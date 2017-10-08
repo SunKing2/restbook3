@@ -1,4 +1,4 @@
-package com.restfully.shop.services;
+package mystuff;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
