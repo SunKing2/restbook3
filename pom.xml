@@ -20,13 +20,6 @@
             <artifactId>resteasy-jaxrs</artifactId>
             <version>3.0.5.Final</version>
         </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.1</version>
-            <scope>test</scope>
-        </dependency>
-        
         
 <dependency>
    <groupId>org.mortbay.jetty</groupId>
